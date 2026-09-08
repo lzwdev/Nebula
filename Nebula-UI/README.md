@@ -30,7 +30,7 @@ Nebula UI offers a clean API, smooth animations, and powerful components that ma
 
 Visit the official documentation for installation guides, API reference, and examples.
 
--> **https://lzwdev.github.io/Nebula/Nebula-UI/docs**
+--> **https://lzwdev.github.io/Nebula/Nebula-UI/docs**
 
 ---
 
