@@ -30,14 +30,14 @@ Nebula UI offers a clean API, smooth animations, and powerful components that ma
 
 Visit the official documentation for installation guides, API reference, and examples.
 
-➡️ **https://lzhenweidev.github.io/Nebula-UI/docs**
+-> **https://lzwdev.github.io/Nebula/Nebula-UI/docs**
 
 ---
 
 ## 🚀 Getting Started
 
 ```lua
-local Nebula = loadstring(game:HttpGet("YOUR_SCRIPT_URL"))()
+local Nebula = loadstring(game:HttpGet("https://raw.githubusercontent.com/lzwdev/Nebula/refs/heads/main/Nebula-UI/V3.lua"))()
 
 local Window = Nebula:CreateWindow({
     Title = "Nebula UI",
@@ -112,8 +112,8 @@ This project is licensed under the **MIT License**.
 
 Read the full documentation, API reference, and examples here:
 
-**➡️ [Go to the Documentation](https://lzhenweidev.github.io/Nebula-UI/docs)**
+**➡️ [Go to the Documentation](https://lzwdev.github.io/Nebula/Nebula-UI/docs)**
 
 or simply:
 
-https://lzhenweidev.github.io/Nebula-UI/docs
+https://lzwdev.github.io/Nebula/Nebula-UI/docs
