@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nebula UI v3.1 Docs</title>
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Highlight.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/lua.min.js"></script>
+  <style>
+    /* ===== CSS VARIABLES (Theme System) ===== */
+    :root {
+      --bg-primary: #0b0a0f;
+      --bg-secondary: #0f0d16;
+      --bg-surface: #12101a;
+      --bg-surface2: #1a1722;
+      --bg-surface3: #24202e;
+      --text-primary: #eae8f0;
+      --text-secondary: #a99fbf;
+      --text-dim: #6f6582;
+      --accent: #7c4dff;
+      --accent-hover: #b388ff;
+      --accent-glow: #d9c9ff;
+      --border: #2f2840;
+      --shadow: rgba(0,0,0,0.5);
+      --gloss-opacity: 0.97;
+      --card-bg: rgba(255,255,255,0.03);
+      --card-border: rgba(255,255,255,0.06);
+      --code-bg: #0b0a0f;
+      --code-border: #24202e;
+      --search-bg: rgba(255,255,255,0.05);
+      --search-text: #eae8f0;
+      --search-placeholder: #6f6582;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f5f1fa;
+      --bg-secondary: #f0ecf6;
+      --bg-surface: #e8e2f0;
+      --bg-surface2: #f0ecf6;
+      --bg-surface3: #e0d8ea;
+      --text-primary: #1e1e23;
+      --text-secondary: #6e6088;
+      --text-dim: #9a8bb5;
+      --accent: #7c3ee8;
+      --accent-hover: #9154f0;
+      --accent-glow: #af82ff;
+      --border: #d3c9e4;
+      --shadow: rgba(100,100,100,0.2);
+      --gloss-opacity: 0.9;
+      --card-bg: rgba(255,255,255,0.5);
+      --card-border: rgba(0,0,0,0.06);
+      --code-bg: #f5f1fa;
+      --code-border: #d3c9e4;
+      --search-bg: rgba(0,0,0,0.05);
+      --search-text: #1e1e23;
+      --search-placeholder: #9a8bb5;
+    }
+
+    /* ===== BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 280px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      padding: 2rem 1.2rem 2rem 1.5rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      flex-shrink: 0;
+      z-index: 10;
+      transition: background 0.3s, border 0.3s;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-logo i {
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, var(--accent-hover), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sidebar-logo span {
+      font-weight: 700;
+      font-size: 1.4rem;
+      background: linear-gradient(to right, var(--accent-glow), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sidebar-logo .version {
+      font-size: 0.65rem;
+      background: rgba(124, 77, 255, 0.2);
+      color: var(--accent);
+      padding: 0.1rem 0.6rem;
+      border-radius: 20px;
+      margin-left: 0.3rem;
+      -webkit-text-fill-color: var(--accent);
+    }
+
+    /* ===== SEARCH ===== */
+    .search-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 0.6rem 0.8rem 0.6rem 2.2rem;
+      background: var(--search-bg);
+      color: var(--search-text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .search-container input::placeholder {
+      color: var(--search-placeholder);
+    }
+
+    .search-container input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.1);
+    }
+
+    .search-container i {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-top: 0.3rem;
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+      z-index: 100;
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+
+    .search-results.show { display: block; }
+
+    .search-result-item {
+      padding: 0.6rem 0.8rem;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      transition: 0.15s;
+    }
+
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: var(--card-bg); color: var(--text-primary); }
+    .search-result-item .highlight { color: var(--accent); font-weight: 600; }
+
+    /* ===== NAV ===== */
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .sidebar-nav .nav-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-dim);
+      margin-top: 1.2rem;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.55rem 0.8rem;
+      border-radius: 12px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: 0.15s;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .sidebar-nav a i { width: 1.4rem; font-size: 1rem; color: var(--text-dim); transition: 0.15s; }
+    .sidebar-nav a:hover { background: var(--card-bg); color: var(--accent-glow); }
+    .sidebar-nav a:hover i { color: var(--accent); }
+    .sidebar-nav a.active { background: rgba(124, 77, 255, 0.12); border-color: rgba(124, 77, 255, 0.2); color: var(--accent-glow); }
+    .sidebar-nav a.active i { color: var(--accent); }
+
+    /* ===== THEME TOGGLE ===== */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .theme-toggle label {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      background: var(--bg-surface2);
+      border-radius: 13px;
+      cursor: pointer;
+      transition: 0.3s;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .toggle-switch.active {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .toggle-switch .toggle-dot {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .toggle-switch.active .toggle-dot {
+      transform: translateX(22px);
+    }
+
+    .theme-toggle .theme-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      flex: 1;
+      padding: 2.5rem 3rem 4rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      transition: background 0.3s;
+    }
+
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .doc-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .doc-header h1 span { background: linear-gradient(135deg, var(--accent-hover), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    .doc-header .badge {
+      background: rgba(124, 77, 255, 0.15);
+      color: var(--accent);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid rgba(124, 77, 255, 0.2);
+    }
+
+    .doc-section {
+      margin-bottom: 3rem;
+      scroll-margin-top: 2rem;
+    }
+
+    .doc-section h2 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .doc-section h2 i { color: var(--accent); font-size: 1.4rem; }
+
+    .doc-section .desc {
+      color: var(--text-secondary);
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+    }
+
+    /* ===== CODE WRAPPER ===== */
+    .code-wrapper {
+      position: relative;
+      background: var(--code-bg);
+      border-radius: 16px;
+      border: 1px solid var(--code-border);
+      overflow: hidden;
+      margin: 0.8rem 0 1.5rem;
+      transition: background 0.3s, border 0.3s;
+    }
+
+    .code-wrapper pre {
+      margin: 0;
+      padding: 1.2rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      background: transparent;
+    }
+
+    .code-wrapper code {
+      font-family: 'JetBrains Mono', monospace;
+      background: transparent;
+      padding: 0;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.3rem 0.7rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Inter', sans-serif;
+      backdrop-filter: blur(4px);
+    }
+
+    .copy-btn:hover { background: rgba(124, 77, 255, 0.15); border-color: var(--accent); color: var(--accent-glow); }
+    .copy-btn.copied { background: rgba(0, 200, 100, 0.15); border-color: #00c864; color: #00c864; }
+
+    /* ===== TABLES ===== */
+    .param-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.9rem;
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .param-table th {
+      text-align: left;
+      padding: 0.7rem 1rem;
+      background: var(--bg-surface2);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .param-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .param-table tr:last-child td { border-bottom: none; }
+    .param-table td:first-child { font-weight: 500; color: var(--accent-glow); }
+    .param-table td code {
+      background: var(--bg-surface2);
+      padding: 0.1rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: var(--accent-hover);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ===== FEATURE TAGS ===== */
+    .feature-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.5rem 0 1rem;
+    }
+
+    .feature-tag {
+      background: rgba(124, 77, 255, 0.08);
+      border: 1px solid rgba(124, 77, 255, 0.12);
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ===== FOOTER ===== */
+    .doc-footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .doc-footer a { color: var(--accent); text-decoration: none; }
+    .doc-footer a:hover { text-decoration: underline; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .sidebar { width: 220px; padding: 1.2rem 0.8rem; }
+      .main-content { padding: 1.5rem 1.5rem 3rem; }
+    }
+
+    @media (max-width: 700px) {
+      body { flex-direction: column; }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 1rem 1.2rem;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .sidebar-logo { margin-bottom: 1rem; padding-bottom: 0.8rem; }
+      .sidebar-nav { flex-direction: row; flex-wrap: wrap; gap: 0.3rem; }
+      .sidebar-nav .nav-label { display: none; }
+      .sidebar-nav a { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+      .sidebar-nav a i { display: none; }
+      .theme-toggle { margin-top: 0.8rem; padding-top: 0.8rem; }
+      .main-content { padding: 1.2rem; }
+      .doc-header h1 { font-size: 1.5rem; }
+      .param-table { font-size: 0.8rem; }
+      .param-table th, .param-table td { padding: 0.5rem 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <i class="fas fa-star"></i>
+      <span>Nebula UI <span class="version">v3.1</span></span>
+    </div>
+
+    <!-- Search -->
+    <div class="search-container">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search documentation..." />
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+      <span class="nav-label">Getting Started</span>
+      <a href="#intro" class="active"><i class="fas fa-rocket"></i> Introduction</a>
+      <a href="#install"><i class="fas fa-download"></i> Installation</a>
+      <a href="#window"><i class="fas fa-window-maximize"></i> Window</a>
+
+      <span class="nav-label">Components</span>
+      <a href="#tabs"><i class="fas fa-folder-open"></i> Tabs & Sections</a>
+      <a href="#button"><i class="fas fa-square"></i> Button</a>
+      <a href="#toggle"><i class="fas fa-toggle-on"></i> Toggle</a>
+      <a href="#slider"><i class="fas fa-sliders-h"></i> Slider</a>
+      <a href="#dropdown"><i class="fas fa-caret-down"></i> Dropdown</a>
+      <a href="#textbox"><i class="fas fa-keyboard"></i> TextBox</a>
+      <a href="#keybind"><i class="fas fa-key"></i> Keybind</a>
+      <a href="#checkbox"><i class="fas fa-check-square"></i> Checkbox</a>
+      <a href="#colorpicker"><i class="fas fa-palette"></i> Color Picker</a>
+      <a href="#progress"><i class="fas fa-chart-bar"></i> Progress Bar</a>
+      <a href="#notify"><i class="fas fa-bell"></i> Notifications</a>
+      <a href="#loading"><i class="fas fa-spinner"></i> Loading Screen</a>
+
+      <span class="nav-label">System</span>
+      <a href="#config"><i class="fas fa-save"></i> Config System</a>
+      <a href="#themes"><i class="fas fa-paint-brush"></i> Themes</a>
+    </nav>
+
+    <!-- Theme Toggle (Amethyst / Light) -->
+    <div class="theme-toggle">
+      <label><i class="fas fa-palette"></i> Theme</label>
+      <div style="display: flex; align-items: center; gap: 0.6rem;">
+        <span class="theme-label" id="themeLabel">Amethyst</span>
+        <div class="toggle-switch" id="themeToggle">
+          <div class="toggle-dot"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    <!-- Header -->
+    <div class="doc-header">
+      <h1>📘 <span>Nebula UI</span> Documentation</h1>
+      <span class="badge"><i class="fas fa-code"></i> v3.1 · Open Source</span>
+    </div>
+
+    <!-- ===== INTRO ===== -->
+    <section class="doc-section" id="intro">
+      <h2><i class="fas fa-rocket"></i> Introduction</h2>
+      <p class="desc">
+        <strong>Nebula UI v3.1</strong> is a modern, customizable UI library for Roblox with
+        a glossy purple theme, smooth animations, notifications, loading screens,
+        and many built-in components.
+      </p>
+      <div class="feature-tags">
+        <span class="feature-tag">🎨 Amethyst / Light</span>
+        <span class="feature-tag">📂 Tabs & Sections</span>
+        <span class="feature-tag">🔘 Toggle · Button · Slider</span>
+        <span class="feature-tag">📋 Dropdown · TextBox</span>
+        <span class="feature-tag">🔑 Keybind · Checkbox</span>
+        <span class="feature-tag">🎨 RGB Color Picker</span>
+        <span class="feature-tag">📊 Progress Bar</span>
+        <span class="feature-tag">🔔 Notifications</span>
+        <span class="feature-tag">⏳ Loading Screen</span>
+        <span class="feature-tag">💾 Config System</span>
+        <span class="feature-tag">🖱 Draggable Window</span>
+        <span class="feature-tag">✨ Glossy Effect</span>
+      </div>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+        <i class="fas fa-info-circle" style="color: var(--accent);"></i>
+        The library uses <strong>V3.1</strong> with improved performance and new features.
+      </p>
+    </section>
+
+    <!-- ===== INSTALLATION ===== -->
+    <section class="doc-section" id="install">
+      <h2><i class="fas fa-download"></i> Installation</h2>
+      <p class="desc">Load the library with a single line:</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">local Nebula = loadstring(game:HttpGet("https://github.com/lzhenweiDev/Nebula-UI/raw/refs/heads/main/V3.lua"))()</code></pre>
+      </div>
+      <p style="color: var(--text-secondary); font-size: 0.9rem;">
+        <i class="fas fa-info-circle" style="color: var(--accent);"></i>
+        The current version is <strong>V3.1</strong>. For modifications, use <code>source.lua</code>.
+      </p>
+    </section>
+
+    <!-- ===== WINDOW ===== -->
+    <section class="doc-section" id="window">
+      <h2><i class="fas fa-window-maximize"></i> Window</h2>
+      <p class="desc">Create a main window with configuration and optional loading screen.</p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">local Window = Nebula.CreateWindow({
+    Title = "Nebula Demo",
+    ConfigName = "MyConfig",
+    ShowLoading = true,
+    LoadingDuration = 3,
+    LoadingSteps = {
+        "Loading...",
+        "Creating UI...",
+        "Almost Done...",
+        "Ready!"
+    }
+})</code></pre>
+      </div>
+
+      <table class="param-table">
+        <tr><th>Parameter</th><th>Description</th></tr>
+        <tr><td><code>Title</code></td><td>Window title</td></tr>
+        <tr><td><code>ConfigName</code></td><td>Name for the config system</td></tr>
+        <tr><td><code>ShowLoading</code></td><td>Show loading screen (true/false)</td></tr>
+        <tr><td><code>LoadingDuration</code></td><td>Duration in seconds</td></tr>
+        <tr><td><code>LoadingSteps</code></td><td>Array of status messages</td></tr>
+      </table>
+
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+        <i class="fas fa-arrow-right" style="color: var(--accent);"></i>
+        Methods: <code>:Destroy()</code>, <code>:Minimize()</code>, <code>:Notify()</code>
+      </p>
+    </section>
+
+    <!-- ===== TABS & SECTIONS ===== -->
+    <section class="doc-section" id="tabs">
+      <h2><i class="fas fa-folder-open"></i> Tabs & Sections</h2>
+      <p class="desc">Organize your UI with tabs and subsections.</p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">-- Create tabs
+local MainTab = Window:CreateTab("Main", "🏠")
+local SettingsTab = Window:CreateTab("Settings", "⚙")
+
+-- Section with title
+local MainSection = Nebula.CreateSection(MainTab, {
+    Name = "Main Features"
+})
+
+-- Section without title
+local EmptySection = Nebula.CreateSection(MainTab)</code></pre>
+      </div>
+
+      <table class="param-table">
+        <tr><th>Parameter</th><th>Description</th></tr>
+        <tr><td><code>Name</code> (Tab)</td><td>Tab name</td></tr>
+        <tr><td><code>Icon</code> (Tab)</td><td>Emoji or icon</td></tr>
+        <tr><td><code>Name</code> (Section)</td><td>Optional section title</td></tr>
+      </table>
+    </section>
+
+    <!-- ===== BUTTON ===== -->
+    <section class="doc-section" id="button">
+      <h2><i class="fas fa-square"></i> Button</h2>
+      <p class="desc">A simple button with callback and optional color.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">MainSection:CreateButton({
+    Name = "Click Me",
+    Color = Color3.fromRGB(255, 0, 0), -- optional
+    Callback = function()
+        print("Clicked!")
+    end
+})</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== TOGGLE ===== -->
+    <section class="doc-section" id="toggle">
+      <h2><i class="fas fa-toggle-on"></i> Toggle</h2>
+      <p class="desc">A switch with state, events, and methods.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">local Toggle = MainSection:CreateToggle({
+    Name = "Auto Farm",
+    Default = false,
+    Callback = function(Value)
+        print(Value)
+    end
+})
+
+-- Methods
+Toggle:Set(true)
+print(Toggle:Get())
+
+-- Event
+Toggle.Events.OnChanged:Connect(function(Value)
+    print("Changed:", Value)
+end)</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== SLIDER ===== -->
+    <section class="doc-section" id="slider">
+      <h2><i class="fas fa-sliders-h"></i> Slider</h2>
+      <p class="desc">Value range with min, max, suffix, and input field.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">local Slider = MainSection:CreateSlider({
+    Name = "WalkSpeed",
+    Min = 16,
+    Max = 100,
+    Default = 16,
+    Suffix = " Studs",
+    Callback = function(Value) end
+})
+
+Slider:Set(50)
+print(Slider:Get())
+Slider.Events.OnChanged:Connect(function(v) end)</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== DROPDOWN ===== -->
+    <section class="doc-section" id="dropdown">
+      <h2><i class="fas fa-caret-down"></i> Dropdown</h2>
+      <p class="desc">Select from a list of options with refresh function.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">local Dropdown = MainSection:CreateDropdown({
+    Name = "Select Team",
+    Options = { "Red", "Blue", "Green" },
+    Default = "Red",
+    Callback = function(Value) end
+})
+
+-- Refresh options
+Dropdown:Refresh({ "Option 1", "Option 2", "Option 3" })
+Dropdown:Set("Blue")
+Dropdown.Events.OnChanged:Connect(function(v) end)</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== TEXTBOX ===== -->
+    <section class="doc-section" id="textbox">
+      <h2><i class="fas fa-keyboard"></i> TextBox</h2>
+      <p class="desc">Text input with placeholder and events.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">local Box = MainSection:CreateTextBox({
+    Placeholder = "Type here...",
+    Default = "",
+    Callback = function(Text) end
+})
+
+Box:Set("Hello")
+print(Box:Get())
+Box.Events.OnChanged:Connect(function(Text) end)
+Box.Events.OnFocus:Connect(function() end)
+Box.Events.OnBlur:Connect(function() end)</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== KEYBIND ===== -->
+    <section class="doc-section" id="keybind">
+      <h2><i class="fas fa-key"></i> Keybind</h2>
+      <p class="desc">Keyboard shortcut with default key and bind mode.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">local Keybind = MainSection:CreateKeybind({
+    Name = "Open UI",
+    Default = "RightShift",
+    Callback = function(Key) end
+})
+
+Keybind:Set("F")
+print(Keybind:Get())
+Keybind.Events.OnChanged:Connect(function(Key) end)</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== CHECKBOX ===== -->
+    <section class="doc-section" id="checkbox">
+      <h2><i class="fas fa-check-square"></i> Checkbox</h2>
+      <p class="desc">Checkbox with state and events.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">local Checkbox = MainSection:CreateCheckbox({
+    Name = "ESP",
+    Default = false,
+    Callback = function(Value) end
+})
+
+Checkbox:Set(true)
+print(Checkbox:Get())
+Checkbox.Events.OnChanged:Connect(function(v) end)</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== COLOR PICKER ===== -->
+    <section class="doc-section" id="colorpicker">
+      <h2><i class="fas fa-palette"></i> Color Picker</h2>
+      <p class="desc">RGB color picker with sliders and input fields.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">local Picker = MainSection:CreateColorPicker({
+    Name = "Accent",
+    Default = Color3.fromRGB(140, 80, 255),
+    Callback = function(Color) end
+})
+
+Picker:Set(Color3.fromRGB(255, 0, 0))
+print(Picker:Get())
+Picker.Events.OnChanged:Connect(function(c) end)</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== PROGRESS BAR ===== -->
+    <section class="doc-section" id="progress">
+      <h2><i class="fas fa-chart-bar"></i> Progress Bar</h2>
+      <p class="desc">Progress bar with current value and optional color.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">local Progress = MainSection:CreateProgressBar({
+    Name = "Loading",
+    Value = 30,
+    Max = 100,
+    Color = Color3.fromRGB(140, 80, 255) -- optional
+})
+
+Progress:Set(75)
+print(Progress:Get())</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== NOTIFICATIONS ===== -->
+    <section class="doc-section" id="notify">
+      <h2><i class="fas fa-bell"></i> Notifications</h2>
+      <p class="desc">Notifications with type, duration, and icon.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">Window:Notify({
+    Title = "Success",
+    Content = "Everything loaded!",
+    Type = "success", -- info | success | warning | error
+    Duration = 5,
+    Icon = "✅"
+})</code></pre>
+      </div>
+      <table class="param-table">
+        <tr><th>Type</th><th>Description</th></tr>
+        <tr><td><code>info</code></td><td>Information (accent color)</td></tr>
+        <tr><td><code>success</code></td><td>Success (green)</td></tr>
+        <tr><td><code>warning</code></td><td>Warning (yellow)</td></tr>
+        <tr><td><code>error</code></td><td>Error (red)</td></tr>
+      </table>
+    </section>
+
+    <!-- ===== LOADING SCREEN ===== -->
+    <section class="doc-section" id="loading">
+      <h2><i class="fas fa-spinner"></i> Loading Screen</h2>
+      <p class="desc">Automatically enabled via <code>ShowLoading</code> in the Window config.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">local Window = Nebula.CreateWindow({
+    Title = "My App",
+    ShowLoading = true,
+    LoadingDuration = 3,
+    LoadingSteps = {
+        "Initializing...",
+        "Loading Modules...",
+        "Ready!"
+    }
+})</code></pre>
+      </div>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+        <i class="fas fa-info-circle" style="color: var(--accent);"></i>
+        The loading screen shows a progress bar with percentage and step messages.
+      </p>
+    </section>
+
+    <!-- ===== CONFIG SYSTEM ===== -->
+    <section class="doc-section" id="config">
+      <h2><i class="fas fa-save"></i> Config System</h2>
+      <p class="desc">Save, load, and delete configurations (supports <code>writefile</code>).</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">-- Save
+ConfigManager:Save("MyConfig", data)
+
+-- Load
+local data = ConfigManager:Load("MyConfig")
+
+-- Delete
+ConfigManager:Delete("MyConfig")</code></pre>
+      </div>
+    </section>
+
+    <!-- ===== THEMES ===== -->
+    <section class="doc-section" id="themes">
+      <h2><i class="fas fa-paint-brush"></i> Themes</h2>
+      <p class="desc">Two built-in themes: <strong>Amethyst</strong> (default) and <strong>Light</strong>.</p>
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+        <pre><code class="language-lua">-- The theme is set when creating the window
+-- Default: Amethyst (purple glossy)
+-- Light: Bright theme for daytime use</code></pre>
+      </div>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+        <i class="fas fa-arrow-right" style="color: var(--accent);"></i>
+        <strong>Amethyst</strong> is the default theme with <strong>Glossy Effect</strong>.
+        Light theme has the glossy effect disabled.
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="doc-footer">
+      <span>Made with <i class="fas fa-heart" style="color: var(--accent);"></i> for the Roblox community</span>
+      <span>
+        <a href="https://github.com/lzhenweiDev/Nebula-UI" target="_blank">GitHub</a> ·
+        <a href="https://lzhenweidev.github.io/Nebula-UI/" target="_blank">Website</a> ·
+        <span style="color: var(--text-dim);">MIT License</span>
+      </span>
+    </footer>
+
+  </main>
+
+  <script>
+    // ===== HIGHLIGHT.JS =====
+    document.addEventListener('DOMContentLoaded', function() {
+      hljs.highlightAll();
+    });
+
+    // ===== COPY FUNCTION =====
+    function copyCode(button) {
+      const wrapper = button.closest('.code-wrapper');
+      const codeElement = wrapper.querySelector('code');
+      const text = codeElement.textContent;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        button.classList.add('copied');
+        setTimeout(() => {
+          button.innerHTML = originalHtml;
+          button.classList.remove('copied');
+        }, 2000);
+      }).catch(() => {
+        const range = document.createRange();
+        range.selectNode(codeElement);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        button.classList.add('copied');
+        setTimeout(() => {
+          button.innerHTML = '<i class="fas fa-copy"></i>';
+          button.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // ===== THEME TOGGLE (Amethyst / Light) =====
+    const themeToggle = document.getElementById('themeToggle');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function applyTheme(isLight) {
+      const root = document.documentElement;
+      if (isLight) {
+        root.setAttribute('data-theme', 'light');
+        themeLabel.textContent = 'Light';
+        themeToggle.classList.add('active');
+        // Switch highlight.js to light theme
+        const hljsTheme = document.querySelector('link[href*="highlight.js"]');
+        if (hljsTheme) {
+          hljsTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css';
+        }
+      } else {
+        root.removeAttribute('data-theme');
+        themeLabel.textContent = 'Amethyst';
+        themeToggle.classList.remove('active');
+        const hljsTheme = document.querySelector('link[href*="highlight.js"]');
+        if (hljsTheme) {
+          hljsTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css';
+        }
+      }
+      // Re-highlight code blocks
+      hljs.highlightAll();
+      localStorage.setItem('nebula-theme-light', isLight ? 'true' : 'false');
+    }
+
+    // Load saved theme
+    const savedLight = localStorage.getItem('nebula-theme-light') === 'true';
+    applyTheme(savedLight);
+
+    themeToggle.addEventListener('click', function() {
+      const isLight = !this.classList.contains('active');
+      applyTheme(isLight);
+    });
+
+    // ===== SIDEBAR NAVIGATION (sync with scroll) =====
+    const sections = document.querySelectorAll('.doc-section');
+    const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+    function updateActiveLink() {
+      let current = '';
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 150) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    // Throttled scroll listener
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          updateActiveLink();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // Also update on load
+    window.addEventListener('load', function() {
+      setTimeout(updateActiveLink, 100);
+    });
+
+    // ===== SEARCH FUNCTIONALITY =====
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+
+    // Build search index from section titles and content
+    function buildSearchIndex() {
+      const index = [];
+      document.querySelectorAll('.doc-section').forEach(section => {
+        const id = section.getAttribute('id');
+        const title = section.querySelector('h2')?.textContent || '';
+        const desc = section.querySelector('.desc')?.textContent || '';
+        // Get all text from section
+        const content = section.textContent || '';
+        index.push({ id, title, desc, content: content.substring(0, 500) });
+      });
+      return index;
+    }
+
+    const searchIndex = buildSearchIndex();
+
+    function performSearch(query) {
+      if (!query || query.length < 2) {
+        searchResults.classList.remove('show');
+        return [];
+      }
+
+      const lowerQuery = query.toLowerCase();
+      const results = searchIndex.filter(item => {
+        return item.title.toLowerCase().includes(lowerQuery) ||
+               item.desc.toLowerCase().includes(lowerQuery) ||
+               item.content.toLowerCase().includes(lowerQuery);
+      });
+
+      return results;
+    }
+
+    function renderSearchResults(results) {
+      if (results.length === 0) {
+        searchResults.innerHTML = '<div class="search-result-item" style="color: var(--text-dim);">No results found</div>';
+        searchResults.classList.add('show');
+        return;
+      }
+
+      let html = '';
+      results.forEach(item => {
+        const highlightTitle = item.title.replace(
+          new RegExp(searchInput.value, 'gi'),
+          match => `<span class="highlight">${match}</span>`
+        );
+        html += `<div class="search-result-item" data-id="${item.id}">
+          <strong>${highlightTitle}</strong>
+          <div style="font-size:0.75rem;color:var(--text-dim);">${item.desc.substring(0, 80)}...</div>
+        </div>`;
+      });
+      searchResults.innerHTML = html;
+      searchResults.classList.add('show');
+
+      // Click handler for results
+      searchResults.querySelectorAll('.search-result-item').forEach(el => {
+        el.addEventListener('click', function() {
+          const id = this.getAttribute('data-id');
+          const target = document.getElementById(id);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+            searchResults.classList.remove('show');
+            searchInput.value = '';
+          }
+        });
+      });
+    }
+
+    searchInput.addEventListener('input', function() {
+      const query = this.value.trim();
+      if (query.length < 2) {
+        searchResults.classList.remove('show');
+        return;
+      }
+      const results = performSearch(query);
+      renderSearchResults(results);
+    });
+
+    // Close search results on click outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.search-container')) {
+        searchResults.classList.remove('show');
+      }
+    });
+
+    // Keyboard shortcut: Ctrl+K to focus search
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInput.focus();
+        searchInput.select();
+      }
+      if (e.key === 'Escape') {
+        searchResults.classList.remove('show');
+        searchInput.blur();
+      }
+    });
+  </script>
+</body>
+</html>
