@@ -1,3 +1,4 @@
+-- NEED HELP: https://lzwdev.github.io/Nebula/Nebula-UI/docs/
 -- =====================================================================
 -- 🌟 NEBULA UI LIBRARY v1.0 OPEN SOURCE
 -- Modern, Smooth, Open Source UI Library
