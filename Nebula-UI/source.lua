@@ -1,6 +1,6 @@
 -- =====================================================================
--- 🌟 NEBULA UI LIBRARY v1.0
--- Modern, Smooth, Bug-Free UI Library
+-- 🌟 NEBULA UI LIBRARY v1.0 OPEN SOURCE
+-- Modern, Smooth, Open Source UI Library
 -- =====================================================================
 
 local Nebula = {}
